@@ -1,0 +1,32 @@
+info:
+  namespace: ripening
+
+items:
+  fermentation_jar:
+    display_name: "§f항아리"
+    permission: ripening.fermentation_jar
+    resource:
+      material: BARRIER
+      generate: false
+      model_path: jar
+    enchants:
+      - DURABILITY:1
+    item_flags:
+      - HIDE_ENCHANTS
+    behaviours:
+      furniture:
+        entity: item_display
+        solid: true
+        hitbox:
+          length: 1
+          width: 1
+          height: 1
+        placeable_on:
+          floor: true
+          walls: false
+        display_transformation:
+          transform: HEAD
+          translation:
+            x: 0
+            y: 0.5
+            z: 0

@@ -1,0 +1,32 @@
+
+recipes:
+  gochujang:
+    items:
+      - "itemsadder:red_pepper_powder"
+      - "itemsadder:fermented_soybean_block"
+      - "itemsadder:salt"
+    time: 3600 # 초 단위 (1시간)
+    results:
+      one_star:
+        item: "itemsadder:gochujang_1star"
+        chance: 50.0
+      two_star:
+        item: "itemsadder:gochujang_2star"
+        chance: 35.0
+      three_star:
+        item: "itemsadder:gochujang_3star"
+        chance: 14.0
+      failure:
+        item: "itemsadder:rotten_food"
+        chance: 1.0
+
+  golden_apple_recipe:
+    items:
+      - "minecraft:apple"
+      - "minecraft:apple"
+      - "minecraft:apple"
+    time: 60 # 1분
+    results:
+      success:
+        item: "minecraft:golden_apple"
+        chance: 100.0
