@@ -1,0 +1,11 @@
+name: ripening_plugin
+version: '1.0-SNAPSHOT'
+main: lightstudio.ripening_plugin.Ripening_plugin
+api-version: '1.21'
+depend: [ItemsAdder]
+commands:
+  ripening:
+    description: Ripening Plugin commands
+    usage: /<command> [reload]
+    permission: ripening.admin
+    permission-message: You do not have permission to use this command.

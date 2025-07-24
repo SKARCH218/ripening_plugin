@@ -40,7 +40,23 @@ class ConfigManager(private val plugin: Ripening_plugin) {
     }
 
     fun reloadConfigs() {
-        loadConfigs()
+        recipesFile = File(plugin.dataFolder, "recipes.yml")
+        if (!recipesFile.exists()) {
+            plugin.saveResource("recipes.yml", false)
+        }
+        recipesConfig = YamlConfiguration.loadConfiguration(recipesFile)
+
+        langFile = File(plugin.dataFolder, "lang.yml")
+        if (!langFile.exists()) {
+            plugin.saveResource("lang.yml", false)
+        }
+        langConfig = YamlConfiguration.loadConfiguration(langFile)
+
+        mainConfigFile = File(plugin.dataFolder, "config.yml")
+        if (!mainConfigFile.exists()) {
+            plugin.saveResource("config.yml", false)
+        }
+        mainConfig = YamlConfiguration.loadConfiguration(mainConfigFile)
     }
 
     fun getLangString(path: String): String {

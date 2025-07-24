@@ -11,14 +11,15 @@ class RecipeManager(private val configManager: ConfigManager) {
         val itemIds = items.mapNotNull { itemStack ->
             if (itemStack == null || itemStack.type == Material.AIR) return@mapNotNull null
             val customStack = CustomStack.byItemStack(itemStack)
-            customStack?.id ?: itemStack.type.key.toString() // 네임스페이스 키 사용
-        }.sorted()
+            // ItemsAdder 아이템인 경우 namespacedID를, 아닌 경우 바닐라 아이템의 네임스페이스 키를 사용
+            customStack?.namespacedID ?: itemStack.type.key.toString()
+        }.map { it.trim() }.sorted()
 
         if (itemIds.isEmpty()) return null
 
         for (recipeId in recipeSection.getKeys(false)) {
-            val requiredItems = recipeSection.getStringList("$recipeId.items").sorted()
-            if (itemIds == requiredItems) {
+            val requiredItems = recipeSection.getStringList("$recipeId.items").map { it.trim() }.sorted()
+            if (itemIds.size == requiredItems.size && itemIds == requiredItems) {
                 return recipeId
             }
         }
