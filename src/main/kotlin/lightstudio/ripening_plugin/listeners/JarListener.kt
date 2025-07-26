@@ -115,9 +115,6 @@ class JarListener(
                     val items = ingredientSlots.mapNotNull { guiInventory.getItem(it) }
                     val recipeId = recipeManager.getRecipeId(items)
 
-                    val items = ingredientSlots.mapNotNull { guiInventory.getItem(it) }
-                    val recipeId = recipeManager.getRecipeId(items)
-
                     if (recipeId != null) {
                         val inputSlots = listOf(12, 13, 14, 21, 22, 23, 30, 31, 32)
 
