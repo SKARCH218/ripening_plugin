@@ -70,4 +70,8 @@ class ConfigManager(private val plugin: Ripening_plugin) {
     fun getFermentationClaimSound(): String {
         return mainConfig.getString("sounds.fermentation_claim") ?: "ENTITY_ITEM_PICKUP"
     }
+
+    fun isShapedCraftingRequired(): Boolean {
+        return mainConfig.getBoolean("recipe.shaped_crafting_required", true)
+    }
 }

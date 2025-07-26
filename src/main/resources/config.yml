@@ -7,6 +7,10 @@ items-all-structure-void: false
 gui-titles:
   jar_gui: "항아리"
 
+# 이 모드가 True 일시 조합법에 순서가 생깁니다.
+recipe:
+  shaped_crafting_required: false
+
 sounds:
   fermentation_start: "BLOCK_BREWING_STAND_BREW"
   fermentation_claim: "ENTITY_ITEM_PICKUP"

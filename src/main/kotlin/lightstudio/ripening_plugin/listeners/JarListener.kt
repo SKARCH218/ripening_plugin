@@ -48,17 +48,19 @@ class JarListener(
 
             if (elapsedTime >= fermentationTime) {
                 // Fermentation complete - give result directly
-                val resultItemId = recipeManager.getResultItem(jarData.recipeId!!)
-                if (resultItemId != null) {
-                    val resultItem = if (resultItemId.startsWith("minecraft:")) {
-                        val material = Material.matchMaterial(resultItemId.substringAfter("minecraft:").uppercase())
-                        if (material != null) ItemStack(material) else null
-                    } else {
-                        CustomStack.getInstance(resultItemId)?.itemStack
-                    }
+                val resultItemIds = recipeManager.getResultItems(jarData.recipeId!!)
+                if (resultItemIds != null) {
+                    for (resultItemId in resultItemIds) {
+                        val resultItem = if (resultItemId.startsWith("minecraft:")) {
+                            val material = Material.matchMaterial(resultItemId.substringAfter("minecraft:").uppercase())
+                            if (material != null) ItemStack(material) else null
+                        } else {
+                            CustomStack.getInstance(resultItemId)?.itemStack
+                        }
 
-                    if (resultItem != null) {
-                        player.inventory.addItem(resultItem)
+                        if (resultItem != null) {
+                            player.inventory.addItem(resultItem)
+                        }
                     }
                 }
                 databaseManager.deleteJarData(location)
@@ -113,7 +115,21 @@ class JarListener(
                     val items = ingredientSlots.mapNotNull { guiInventory.getItem(it) }
                     val recipeId = recipeManager.getRecipeId(items)
 
+                    val items = ingredientSlots.mapNotNull { guiInventory.getItem(it) }
+                    val recipeId = recipeManager.getRecipeId(items)
+
                     if (recipeId != null) {
+                        val inputSlots = listOf(12, 13, 14, 21, 22, 23, 30, 31, 32)
+
+                        for (slot in inputSlots) {
+                            val item = guiInventory.getItem(slot)
+                            if (item != null && item.amount > 1) {
+                                guiInventory.setItem(slot, null) // Remove from GUI inventory
+                                player.inventory.addItem(item) // Return to player
+                                player.sendMessage("§c[알림] §f중첩된 아이템은 발효할 수 없습니다. 해당 아이템이 반환되었습니다.")
+                            }
+                        }
+
                         val newJarData = JarData(location.world.name, location.blockX, location.blockY, location.blockZ, player.uniqueId, recipeId, System.currentTimeMillis())
                         databaseManager.saveJarData(newJarData)
                         player.closeInventory()
@@ -129,17 +145,19 @@ class JarListener(
 
                     if (elapsedTime >= fermentationTime) {
                         // Claim result
-                        val resultItemId = recipeManager.getResultItem(jarData.recipeId ?: return)
-                        if (resultItemId != null) {
-                            val resultItem = if (resultItemId.startsWith("minecraft:")) {
-                                val material = Material.matchMaterial(resultItemId.substringAfter("minecraft:").uppercase())
-                                if (material != null) ItemStack(material) else null
-                            } else {
-                                CustomStack.getInstance(resultItemId)?.itemStack
-                            }
+                        val resultItemIds = recipeManager.getResultItems(jarData.recipeId ?: return)
+                        if (resultItemIds != null) {
+                            for (resultItemId in resultItemIds) {
+                                val resultItem = if (resultItemId.startsWith("minecraft:")) {
+                                    val material = Material.matchMaterial(resultItemId.substringAfter("minecraft:").uppercase())
+                                    if (material != null) ItemStack(material) else null
+                                } else {
+                                    CustomStack.getInstance(resultItemId)?.itemStack
+                                }
 
-                            if (resultItem != null) {
-                                player.inventory.addItem(resultItem)
+                                if (resultItem != null) {
+                                    player.inventory.addItem(resultItem)
+                                }
                             }
                         }
                         databaseManager.deleteJarData(location)

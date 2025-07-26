@@ -22,13 +22,15 @@ recipes:
 
   golden_apple_recipe:
     items:
-      - "minecraft:apple"
+      - "minecraft:apple;minecraft:gold_ingot"
       - "minecraft:apple"
       - "minecraft:apple"
     time: 60 # 1분
     results:
       success:
-        item: "minecraft:golden_apple"
+        item:
+         - "minecraft:golden_apple"
+         - "minecraft:apple"
         chance: 100.0
 
   raw_flatfish:
@@ -37,5 +39,7 @@ recipes:
     time: 60
     results:
       success:
-        item: "pack1:pack1_raw_flatfish"
+        item:
+          - "pack1:pack1_raw_flatfish"
+          - "pack1:pack1_another_raw_flatfish" # 예시로 추가된 아이템입니다. 필요에 따라 수정해주세요.
         chance: 100.0
