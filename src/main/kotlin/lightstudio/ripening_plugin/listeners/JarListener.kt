@@ -121,9 +121,13 @@ class JarListener(
                         for (slot in inputSlots) {
                             val item = guiInventory.getItem(slot)
                             if (item != null && item.amount > 1) {
-                                guiInventory.setItem(slot, null) // Remove from GUI inventory
-                                player.inventory.addItem(item) // Return to player
-                                player.sendMessage("§c[알림] §f중첩된 아이템은 발효할 수 없습니다. 해당 아이템이 반환되었습니다.")
+                                val itemToReturn = item.clone()
+                                itemToReturn.amount = item.amount - 1
+                                player.inventory.addItem(itemToReturn) // Return excess to player
+
+                                item.amount = 1 // Keep only one for the recipe
+                                guiInventory.setItem(slot, item) // Update GUI slot
+                                player.sendMessage("§c[알림] §f중첩된 아이템 중 초과분만 반환되었습니다.")
                             }
                         }
 
